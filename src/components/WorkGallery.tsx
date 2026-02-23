@@ -2,7 +2,8 @@ import { works, categories } from "../data/work"
 import { useState, useEffect } from "react"
 
 export default function WorkGallery() {
-  const [activeCategory, setActiveCategory] = useState("Flyers")
+  const [activeCategory, setActiveCategory] = useState("Flyers & Posters");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const filteredWorks = works.filter((w) => w.category === activeCategory)
   
   // Track index of the top card in the stack
@@ -65,21 +66,60 @@ export default function WorkGallery() {
 
   return (
     <div className="flex flex-col items-center w-full">
-      {/* Category Tabs */}
-      <div className="flex flex-wrap gap-2 md:gap-4 justify-center mb-16 overflow-x-auto w-full px-4 pb-4 snap-x">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`px-6 py-2.5 rounded-full font-syne font-bold uppercase tracking-wider text-sm transition-all duration-300 whitespace-nowrap snap-center border-2 
-            ${activeCategory === cat 
-              ? "bg-[#ccff00] text-black border-[#ccff00] shadow-[0_0_20px_rgba(204,255,0,0.4)]" 
-              : "bg-transparent text-slate-400 border-neutral-800 hover:border-slate-500 hover:text-white"
-            }`}
+      {/* Category Selection */}
+      <div className="w-full mb-16 relative z-50">
+        
+        {/* Mobile Dropdown View */}
+        <div className="block md:hidden relative px-4 max-w-sm mx-auto">
+          <button 
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="w-full flex justify-between items-center bg-[#050505] border border-[#ccff00]/50 text-[#ccff00] font-syne font-bold uppercase tracking-widest text-xs py-4 px-6 rounded-2xl shadow-[0_0_30px_rgba(204,255,0,0.15)] active:scale-[0.98] transition-all"
           >
-            {cat}
+            <span className="truncate pr-4">{activeCategory}</span>
+            <span className={`transform transition-transform duration-300 text-[10px] ${isDropdownOpen ? 'rotate-180' : ''}`}>▼</span>
           </button>
-        ))}
+
+          {/* Custom Dropdown Menu Panel (Absolute Position) */}
+          <div className={`absolute left-4 right-4 top-[calc(100%+12px)] bg-neutral-950/90 backdrop-blur-2xl border border-[#ccff00]/20 rounded-2xl overflow-hidden transition-all duration-300 origin-top shadow-2xl ${
+            isDropdownOpen ? 'opacity-100 scale-y-100 pointer-events-auto' : 'opacity-0 scale-y-95 pointer-events-none'
+          }`}>
+            <div className="max-h-[50vh] overflow-y-auto scrollbar-hide flex flex-col" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setActiveCategory(cat)
+                    setIsDropdownOpen(false)
+                  }}
+                  className={`w-full text-left px-6 py-4 font-syne font-bold uppercase tracking-wider text-xs transition-colors border-b border-white/5 last:border-b-0
+                  ${activeCategory === cat 
+                    ? "bg-[#ccff00]/20 text-[#ccff00]" 
+                    : "text-slate-400 hover:bg-white/5 hover:text-white"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop Pills View */}
+        <div className="hidden md:flex flex-wrap gap-4 justify-center w-full">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-6 py-2.5 rounded-full font-syne font-bold uppercase tracking-wider text-sm transition-all duration-300 whitespace-nowrap snap-center border-2 
+              ${activeCategory === cat 
+                ? "bg-[#ccff00] text-black border-[#ccff00] shadow-[0_0_20px_rgba(204,255,0,0.4)]" 
+                : "bg-transparent text-slate-400 border-neutral-800 hover:border-slate-500 hover:text-white"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Crazy Swipe Gallery Area */}
