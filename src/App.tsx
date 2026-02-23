@@ -1,8 +1,9 @@
 import WorkGallery from "./components/WorkGallery"
+import GradualBlur from "./components/GradualBlur"
 
 export default function App() {
   return (
-    <div className="min-h-screen text-slate-100 overflow-hidden selection:bg-[#ccff00] selection:text-black">
+    <div className="min-h-screen text-slate-100 overflow-hidden selection:bg-[#ccff00] selection:text-black relative">
       {/* Marquee Header */}
       <div className="w-full bg-[#ccff00] text-black py-2 overflow-hidden flex whitespace-nowrap border-b-4 border-black font-syne font-bold uppercase tracking-widest text-sm relative z-20">
         <div className="flex animate-marquee min-w-max">
@@ -66,6 +67,17 @@ export default function App() {
           <WorkGallery />
         </div>
       </div>
+
+      <GradualBlur
+        target="page"
+        position="bottom"
+        height="10rem"
+        strength={3}
+        divCount={5}
+        curve="bezier"
+        exponential
+        opacity={1}
+      />
     </div>
   )
 }
