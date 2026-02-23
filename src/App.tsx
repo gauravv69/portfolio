@@ -2,13 +2,60 @@ import WorkGallery from "./components/WorkGallery"
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-neutral-950 text-white px-6 py-16">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-semibold mb-12 tracking-tight">
-          Selected Work
-        </h1>
+    <div className="min-h-screen text-slate-100 overflow-hidden selection:bg-[#ccff00] selection:text-black">
+      {/* Marquee Header */}
+      <div className="w-full bg-[#ccff00] text-black py-2 overflow-hidden flex whitespace-nowrap border-b-4 border-black font-syne font-bold uppercase tracking-widest text-sm relative z-20">
+        <div className="flex animate-marquee min-w-max">
+          {[...Array(15)].map((_, i) => (
+            <span key={i} className="mx-4 flex items-center gap-4">
+              <span>CREATIVE VISIONARY</span>
+              <span>✦</span>
+              <span>DIGITAL ARTIST</span>
+              <span>✦</span>
+            </span>
+          ))}
+        </div>
+      </div>
 
-        <WorkGallery />
+      <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 relative">
+        {/* Background Decorative Blob */}
+        <div className="absolute top-0 right-10 w-64 h-64 bg-fuchsia-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse pointer-events-none" />
+        <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-[#ccff00] rounded-full mix-blend-multiply filter blur-[100px] opacity-10 pointer-events-none" />
+
+        {/* Hero Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 relative z-10 w-full mt-10">
+          <div className="w-full">
+            <h1 className="font-syne text-5xl leading-[1.1] sm:text-[4rem] md:text-[7rem] font-extrabold tracking-tighter mb-4 w-full">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-slate-500 break-words">
+                NOT UR 
+              </span>
+              <span className="flex items-center gap-2 md:gap-4 flex-wrap md:flex-nowrap">
+                AVERAGE
+                <div className="inline-block shrink-0 w-10 h-10 sm:w-12 sm:h-12 md:w-24 md:h-24 bg-[#ccff00] rounded-full animate-float flex items-center justify-center text-black text-xl sm:text-2xl md:text-5xl border-2 border-black">
+                  ✦
+                </div>
+              </span>
+              <span className="block text-[#ccff00] italic pr-4 break-words">
+                PORTFOLIO.
+              </span>
+            </h1>
+          </div>
+          <div className="max-w-xs text-slate-400 mt-8 md:mt-0 font-medium md:text-right text-lg shrink-0">
+            <p>Welcome to my digital scrapbook. Blending code, culture, and pure unadulterated chaos.</p>
+          </div>
+        </div>
+
+        <div className="w-full border-t border-white/10 pt-16 mt-8">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="font-syne text-3xl font-bold uppercase tracking-tight">Selected Archives</h2>
+            <div className="hidden md:flex gap-2">
+              <span className="w-3 h-3 rounded-full bg-white/20"></span>
+              <span className="w-3 h-3 rounded-full bg-white/40"></span>
+              <span className="w-3 h-3 rounded-full bg-[#ccff00]"></span>
+            </div>
+          </div>
+          <WorkGallery />
+        </div>
       </div>
     </div>
   )
