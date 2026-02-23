@@ -22,6 +22,15 @@ export default function App() {
         <div className="absolute top-0 right-10 w-64 h-64 bg-fuchsia-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse pointer-events-none" />
         <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-[#ccff00] rounded-full mix-blend-multiply filter blur-[100px] opacity-10 pointer-events-none" />
 
+        {/* Logo / Header */}
+        <div className="relative z-20 mb-12 md:mb-16">
+          <img 
+            src="/logo.svg" 
+            alt="Artist Logo" 
+            className="h-12 md:h-16 w-auto object-contain drop-shadow-[0_0_15px_rgba(204,255,0,0.5)] hover:scale-105 transition-transform cursor-pointer" 
+          />
+        </div>
+
         {/* Hero Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 relative z-10 w-full mt-10">
           <div className="w-full">
