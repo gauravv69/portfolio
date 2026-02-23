@@ -35,17 +35,17 @@ export default function App() {
         {/* Hero Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 relative z-10 w-full mt-10">
           <div className="w-full">
-            <h1 className="font-syne text-5xl leading-[1.1] sm:text-[4rem] md:text-[7rem] font-extrabold tracking-tighter mb-4 w-full">
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-slate-500 break-words">
+            <h1 className="font-syne text-[9vw] leading-[1.1] sm:text-[4rem] md:text-[7rem] font-extrabold tracking-tighter mb-4 w-full">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-slate-500 whitespace-nowrap">
                 NOT UR 
               </span>
-              <span className="flex items-center gap-2 md:gap-4 flex-wrap md:flex-nowrap">
+              <span className="flex items-center gap-2 md:gap-4 flex-wrap md:flex-nowrap whitespace-nowrap">
                 AVERAGE
-                <div className="inline-block shrink-0 w-10 h-10 sm:w-12 sm:h-12 md:w-24 md:h-24 bg-[#ccff00] rounded-full animate-float flex items-center justify-center text-black text-xl sm:text-2xl md:text-5xl border-2 border-black">
+                <div className="inline-block shrink-0 w-[8vw] h-[8vw] sm:w-12 sm:h-12 md:w-24 md:h-24 bg-[#ccff00] rounded-full animate-float flex items-center justify-center text-black text-[4vw] sm:text-2xl md:text-5xl border-2 border-black ml-2 mt-2 md:mt-0">
                   ✦
                 </div>
               </span>
-              <span className="block text-[#ccff00] italic pr-4 break-words">
+              <span className="block text-[#ccff00] italic pr-4 whitespace-nowrap">
                 PORTFOLIO.
               </span>
             </h1>
