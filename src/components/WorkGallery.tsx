@@ -71,6 +71,10 @@ export default function WorkGallery() {
         
         {/* Mobile Dropdown View */}
         <div className="block md:hidden relative px-4 max-w-sm mx-auto">
+          <div className="flex items-center gap-2 mb-2 ml-2">
+            <span className="text-[10px] text-white/50 font-mono tracking-widest uppercase">Choose ur vibe</span>
+            <span className="text-[#ccff00] text-[8px] animate-pulse">✦</span>
+          </div>
           <button 
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="w-full flex justify-between items-center bg-[#050505] border border-[#ccff00]/50 text-[#ccff00] font-syne font-bold uppercase tracking-widest text-xs py-4 px-6 rounded-2xl shadow-[0_0_30px_rgba(204,255,0,0.15)] active:scale-[0.98] transition-all"
