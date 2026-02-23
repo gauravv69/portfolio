@@ -1,73 +1,184 @@
-import { works } from "../data/work"
+import { works, categories } from "../data/work"
 import { useState, useEffect } from "react"
 
 export default function WorkGallery() {
-  const [selected, setSelected] = useState<string | null>(null)
+  const [activeCategory, setActiveCategory] = useState("Flyers")
+  const filteredWorks = works.filter((w) => w.category === activeCategory)
+  
+  // Track index of the top card in the stack
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [direction, setDirection] = useState(0) // -1 for left, 1 for right
+  const [isAnimating, setIsAnimating] = useState(false)
 
-  // Prevent scrolling when modal is open
+  // Drag states
+  const [dragStart, setDragStart] = useState<number | null>(null)
+  const [dragOffset, setDragOffset] = useState(0)
+
+  // Reset stack when category changes
   useEffect(() => {
-    if (selected) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
+    setCurrentIndex(0)
+    setDirection(0)
+    setDragOffset(0)
+    setDragStart(null)
+  }, [activeCategory])
+
+  const triggerSwap = (forcedDir?: number) => {
+    if (isAnimating || filteredWorks.length <= 1) return
+    
+    setIsAnimating(true)
+    const dir = forcedDir !== undefined ? forcedDir : (Math.random() > 0.5 ? 1 : -1)
+    setDirection(dir)
+    
+    setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % filteredWorks.length)
+      setDirection(0)
+      setIsAnimating(false)
+    }, 400) // Match animation duration
+  }
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (isAnimating || filteredWorks.length <= 1) return
+    setDragStart(e.clientX)
+    e.currentTarget.setPointerCapture(e.pointerId)
+  }
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (dragStart === null) return
+    setDragOffset(e.clientX - dragStart)
+  }
+
+  const onPointerUp = (e: React.PointerEvent) => {
+    if (dragStart === null) return
+    e.currentTarget.releasePointerCapture(e.pointerId)
+    
+    if (Math.abs(dragOffset) > 80) {
+      // Trigger swap if dragged far enough
+      triggerSwap(dragOffset > 0 ? 1 : -1)
+    } else if (Math.abs(dragOffset) < 5) {
+      // Treat as click if barely moved
+      triggerSwap()
     }
-    return () => { document.body.style.overflow = 'unset' }
-  }, [selected])
+    
+    setDragStart(null)
+    setDragOffset(0)
+  }
 
   return (
-    <>
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 pb-32">
-        {works.map((item, index) => (
-          <div
-            key={item.id}
-            className={`group relative cursor-pointer rounded-2xl bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 p-3 transition-all duration-500 hover:border-[#ccff00] hover:shadow-[0_0_30px_-5px_rgba(204,255,0,0.3)] ${
-              index % 2 === 0 ? "lg:translate-y-12" : "lg:-translate-y-4"
-            } ${index % 3 === 1 ? "md:translate-y-16" : ""}`}
-            onClick={() => setSelected(item.image)}
+    <div className="flex flex-col items-center w-full">
+      {/* Category Tabs */}
+      <div className="flex flex-wrap gap-2 md:gap-4 justify-center mb-16 overflow-x-auto w-full px-4 pb-4 snap-x">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setActiveCategory(cat)}
+            className={`px-6 py-2.5 rounded-full font-syne font-bold uppercase tracking-wider text-sm transition-all duration-300 whitespace-nowrap snap-center border-2 
+            ${activeCategory === cat 
+              ? "bg-[#ccff00] text-black border-[#ccff00] shadow-[0_0_20px_rgba(204,255,0,0.4)]" 
+              : "bg-transparent text-slate-400 border-neutral-800 hover:border-slate-500 hover:text-white"
+            }`}
           >
-            <div className="overflow-hidden rounded-xl aspect-[4/5] bg-neutral-950 relative">
-              <div className="absolute inset-0 bg-[#ccff00]/10 z-10 opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay"></div>
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-full object-cover transition-all duration-700 md:grayscale-[0.8] md:group-hover:grayscale-0 md:group-hover:scale-105"
-              />
-              
-              {/* Brutalist tag */}
-              <div className="absolute top-4 right-4 md:-right-24 md:group-hover:right-4 bg-[#ccff00] text-black font-bold font-syne tracking-wider text-[10px] px-3 py-1 uppercase rounded-full rotate-3 transition-all duration-[400ms] ease-out z-20 shadow-lg md:opacity-0 md:group-hover:opacity-100">
-                View Project
-              </div>
-            </div>
-
-            <div className="mt-5 mb-1 px-2 flex justify-between items-end">
-              <p className="font-syne font-bold text-lg md:text-xl uppercase tracking-wide text-[#ccff00] md:text-slate-200 md:group-hover:text-[#ccff00] transition-colors leading-tight">
-                {item.title}
-              </p>
-              <span className="text-xs font-medium font-mono border rounded-full px-2.5 py-1 ml-2 shrink-0 border-[#ccff00]/50 text-[#ccff00] md:border-slate-700 md:text-slate-400 md:group-hover:border-[#ccff00]/50 md:group-hover:text-[#ccff00] transition-colors">
-                #0{item.id}
-              </span>
-            </div>
-          </div>
+            {cat}
+          </button>
         ))}
       </div>
 
-      {selected && (
-        <div
-          className={`fixed inset-0 bg-black/95 backdrop-blur-lg flex items-center justify-center z-50 p-4 md:p-8 cursor-[url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ccff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'),_pointer]`}
-          onClick={() => setSelected(null)}
-        >
-          <div className="relative animate-in fade-in zoom-in duration-300 max-w-6xl w-full flex justify-center items-center">
-            <img
-              src={selected}
-              className="max-h-[85vh] object-contain rounded-md shadow-[0_0_80px_rgba(204,255,0,0.15)] ring-1 ring-white/10"
-              onClick={(e) => e.stopPropagation()}
-            />
-            <div className="absolute -bottom-16 font-syne text-[#ccff00] font-bold tracking-widest text-xs lg:text-sm uppercase text-center w-full">
-              Click anywhere outside to close
-            </div>
+      {/* Crazy Swipe Gallery Area */}
+      {filteredWorks.length > 0 ? (
+        <div className="relative w-full max-w-sm md:max-w-md h-[500px] md:h-[600px] mx-auto perspective-[2000px] mb-32 flex items-center justify-center touch-none">
+          
+          <div className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer pointer-events-none z-30 opacity-80 mix-blend-difference">
+             <div className="text-[#ccff00] font-syne font-bold uppercase tracking-widest text-sm animate-pulse flex items-center gap-3 bg-black/50 px-6 py-3 rounded-full backdrop-blur-md border border-white/10">
+                <span>←</span>
+                <span>Swipe to Explore</span>
+                <span>→</span>
+             </div>
           </div>
+
+          {[...filteredWorks].reverse().map((item, indexReverse) => {
+            const actualIndex = filteredWorks.length - 1 - indexReverse
+            let relativeIndex = (actualIndex - currentIndex + filteredWorks.length) % filteredWorks.length
+            
+            if (relativeIndex > 3) return null
+
+            const isTop = relativeIndex === 0
+            const isDragging = isTop && dragStart !== null
+            const isAnimatingOut = isTop && isAnimating && direction !== 0
+            
+            let transform = ""
+            let opacity = 1
+            let zIndex = 20 - relativeIndex
+
+            if (isAnimatingOut) {
+              const rotateAmt = direction * (15 + Math.random() * 30)
+              const translateAmtX = direction * (150 + Math.random() * 50)
+              const translateAmtY = -20 + Math.random() * 40
+              transform = `translate3d(${translateAmtX}%, ${translateAmtY}%, 0) rotate(${rotateAmt}deg) scale(0.9)`
+              opacity = 0
+            } else if (isDragging) {
+              // Apply manual drag transform
+              const rotateAmt = dragOffset * 0.05
+              transform = `translate3d(${dragOffset}px, 0, 0) rotate(${rotateAmt}deg)`
+              opacity = 1
+            } else {
+              // Idle stack state
+              const randomRot = relativeIndex === 0 ? 0 : (actualIndex % 2 === 0 ? 1 : -1) * (relativeIndex * 5)
+              transform = `translateY(${relativeIndex * 15}px) scale(${1 - relativeIndex * 0.05}) rotate(${randomRot}deg)`
+              opacity = 1 - (relativeIndex * 0.2)
+            }
+
+            // Remove transition duration if dragging to stick to finger cleanly
+            const transitionDuration = isDragging ? "duration-0" : "duration-[400ms]"
+
+            return (
+              <div
+                key={`${item.id}-${currentIndex}`} 
+                onPointerDown={isTop ? onPointerDown : undefined}
+                onPointerMove={isTop ? onPointerMove : undefined}
+                onPointerUp={isTop ? onPointerUp : undefined}
+                onPointerCancel={isTop ? onPointerUp : undefined}
+                className={`absolute inset-0 rounded-2xl md:rounded-3xl border-2 border-neutral-800 shadow-2xl transition-all ease-[cubic-bezier(0.175,0.885,0.32,1.275)] ${transitionDuration} ${
+                  isTop ? "cursor-grab active:cursor-grabbing hover:border-[#ccff00] hover:shadow-[0_0_40px_rgba(204,255,0,0.3)] select-none touch-none" : "pointer-events-none"
+                }`}
+                style={{
+                  transform,
+                  opacity,
+                  zIndex,
+                  transformOrigin: "bottom center"
+                }}
+              >
+                <div className="w-full h-full overflow-hidden rounded-[calc(1rem-2px)] md:rounded-[calc(1.5rem-2px)] bg-neutral-900 relative select-none">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover select-none pointer-events-none"
+                    draggable={false}
+                  />
+                  
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+                  
+                  <div className="absolute bottom-6 left-6 right-6 pointer-events-none">
+                    <div className="flex justify-between items-end">
+                      <div>
+                        <p className="text-[#ccff00] font-mono text-xs mb-1 uppercase tracking-widest">{item.category}</p>
+                        <h3 className="font-syne text-2xl md:text-3xl font-bold text-white uppercase leading-none">{item.title}</h3>
+                      </div>
+                      <span className="text-white/60 font-mono text-sm border border-white/20 rounded-full px-3 py-1 bg-black/40 backdrop-blur-sm">
+                        #{item.id}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"noiseFilter\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" numOctaves=\"3\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23noiseFilter)\"/%3E%3C/svg%3E')"}}></div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center h-64 w-full border-2 border-dashed border-neutral-800 rounded-3xl mb-32">
+          <p className="text-slate-500 font-mono uppercase tracking-widest text-sm">More heat dropping soon ✦</p>
         </div>
       )}
-    </>
+    </div>
   )
 }
