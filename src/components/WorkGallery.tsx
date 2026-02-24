@@ -207,7 +207,7 @@ export default function WorkGallery() {
                         <h3 className="font-syne text-2xl md:text-3xl font-bold text-white uppercase leading-none">{item.title}</h3>
                       </div>
                       <span className="text-white/60 font-mono text-sm border border-white/20 rounded-full px-3 py-1 bg-black/40 backdrop-blur-sm">
-                        #{item.id}
+                        #{actualIndex + 1}
                       </span>
                     </div>
                   </div>
