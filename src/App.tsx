@@ -33,15 +33,15 @@ export default function App() {
         </div>
 
         {/* Hero Section */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 relative z-10 w-full mt-10">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 relative z-10 w-full mt-10">
           <div className="w-full">
-            <h1 className="font-syne text-[9vw] leading-[1.1] sm:text-[4rem] md:text-[7rem] font-extrabold tracking-tighter mb-4 w-full">
+            <h1 className="font-syne text-[9vw] leading-[1.1] sm:text-[4rem] md:text-[5.5rem] lg:text-[6rem] xl:text-[7rem] font-extrabold tracking-tighter mb-4 w-full">
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-slate-500 whitespace-nowrap">
                 NOT UR 
               </span>
               <span className="flex items-center gap-2 md:gap-4 flex-wrap md:flex-nowrap whitespace-nowrap">
                 AVERAGE
-                <div className="inline-block shrink-0 w-[8vw] h-[8vw] sm:w-12 sm:h-12 md:w-24 md:h-24 bg-[#ccff00] rounded-full animate-float flex items-center justify-center text-black text-[4vw] sm:text-2xl md:text-5xl border-2 border-black ml-2 mt-2 md:mt-0">
+                <div className="inline-block shrink-0 w-[8vw] h-[8vw] sm:w-12 sm:h-12 md:w-20 md:h-20 xl:w-24 xl:h-24 bg-[#ccff00] rounded-full animate-float flex items-center justify-center text-black text-[4vw] sm:text-2xl md:text-3xl xl:text-5xl border-2 border-black ml-2 mt-2 md:mt-0">
                   ✦
                 </div>
               </span>
@@ -50,8 +50,8 @@ export default function App() {
               </span>
             </h1>
           </div>
-          <div className="max-w-xs text-slate-400 mt-8 md:mt-0 font-medium md:text-right text-lg shrink-0">
-            <p>Welcome to my digital scrapbook. Blending code, culture, and pure unadulterated chaos.</p>
+          <div className="max-w-xs text-slate-400 mt-8 lg:mt-0 font-medium lg:text-right text-lg shrink-0">
+            <p className="leading-relaxed">Welcome to my digital scrapbook. Blending code, culture, and pure unadulterated chaos.</p>
           </div>
         </div>
 
