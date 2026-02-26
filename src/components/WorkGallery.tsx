@@ -2,7 +2,7 @@ import { works, categories } from "../data/work"
 import { useState, useEffect } from "react"
 
 export default function WorkGallery() {
-  const [activeCategory, setActiveCategory] = useState("Flyers & Posters");
+  const [activeCategory, setActiveCategory] = useState("Promotional Creatives");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const filteredWorks = works.filter((w) => w.category === activeCategory)
   
