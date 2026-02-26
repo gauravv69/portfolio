@@ -1,5 +1,6 @@
 import WorkGallery from "./components/WorkGallery"
 import GradualBlur from "./components/GradualBlur"
+import FallingText from "./components/FallingText"
 import { motion } from "framer-motion"
 
 export default function App() {
@@ -133,9 +134,19 @@ export default function App() {
               <span className="block sm:inline text-transparent bg-clip-text bg-gradient-to-r from-[#ccff00] to-teal-400">CONNECT.</span>
             </h2>
             
-            <p className="font-mono text-slate-400 text-sm md:text-base max-w-md uppercase tracking-widest mb-12 relative z-10">
-              Got a crazy idea? Need some next-level visuals? Slide into the DMs or drop a message. No boring projects allowed.
-            </p>
+            <div className="font-mono text-slate-400 text-sm md:text-base max-w-md uppercase tracking-widest mb-12 relative z-10 w-full h-[150px] cursor-pointer" title="Hover me!">
+              <FallingText
+                text="Got a crazy idea? Need some next-level visuals? Slide into the DMs or drop a message. No boring projects allowed."
+                highlightWords={[]}
+                highlightClass=""
+                trigger="hover"
+                backgroundColor="transparent"
+                wireframes={false}
+                gravity={0.56}
+                fontSize="inherit"
+                mouseConstraintStiffness={0.9}
+              />
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-6 w-full md:w-auto relative z-10 items-center justify-center">
               <a 
