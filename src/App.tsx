@@ -1,12 +1,24 @@
 import WorkGallery from "./components/WorkGallery"
 import GradualBlur from "./components/GradualBlur"
+import { motion } from "framer-motion"
 
 export default function App() {
   return (
     <div className="min-h-screen text-slate-100 overflow-hidden selection:bg-[#ccff00] selection:text-black relative">
       {/* Marquee Header */}
-      <div className="w-full bg-[#ccff00] text-black py-2 overflow-hidden flex whitespace-nowrap border-b-4 border-black font-syne font-bold uppercase tracking-widest text-sm relative z-20">
-        <div className="flex animate-marquee min-w-max" style={{ animationDuration: '80s' }}>
+      <motion.div 
+        initial={{ y: "-100%" }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="w-full bg-[#ccff00] text-black py-2 overflow-hidden flex whitespace-nowrap border-b-4 border-black font-syne font-bold uppercase tracking-widest text-sm relative z-20"
+      >
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="flex animate-marquee min-w-max" 
+          style={{ animationDuration: '80s' }}
+        >
           {[...Array(6)].map((_, i) => (
             <span key={i} className="mx-4 flex items-center gap-4">
               <span>CREATIVE VISIONARY</span>
@@ -15,8 +27,8 @@ export default function App() {
               <span>✦</span>
             </span>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 relative">
         {/* Background Decorative Blob */}
@@ -24,16 +36,26 @@ export default function App() {
         <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-[#ccff00] rounded-full mix-blend-multiply filter blur-[100px] opacity-10 pointer-events-none" />
 
         {/* Logo / Header */}
-        <div className="relative z-20 mb-12 md:mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative z-20 mb-12 md:mb-16"
+        >
           <img 
             src="/logo.svg" 
             alt="Artist Logo" 
             className="h-12 md:h-16 w-auto object-contain drop-shadow-[0_0_15px_rgba(204,255,0,0.5)] hover:scale-105 transition-transform cursor-pointer" 
           />
-        </div>
+        </motion.div>
 
         {/* Hero Section */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 relative z-10 w-full mt-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 relative z-10 w-full mt-10"
+        >
           <div className="w-full">
             <h1 className="font-syne text-[9vw] leading-[1.1] sm:text-[4rem] md:text-[5.5rem] lg:text-[6rem] xl:text-[7rem] font-extrabold tracking-tighter mb-4 w-full">
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-slate-500 whitespace-nowrap">
@@ -53,9 +75,15 @@ export default function App() {
           <div className="max-w-xs text-slate-400 mt-8 lg:mt-0 font-medium lg:text-right text-lg shrink-0">
             <p className="leading-relaxed">Welcome to my digital scrapbook. Blending code, culture, and pure unadulterated chaos.</p>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="w-full border-t border-white/10 pt-16 mt-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="w-full border-t border-white/10 pt-16 mt-8"
+        >
           <div className="flex items-center justify-between mb-12">
             <h2 className="font-syne text-3xl font-bold uppercase tracking-tight">Selected Archives</h2>
             <div className="hidden md:flex gap-2">
@@ -65,7 +93,7 @@ export default function App() {
             </div>
           </div>
           <WorkGallery />
-        </div>
+        </motion.div>
 
         {/* Contact Section */}
         <div className="w-full mt-16 mb-20 relative z-20">
@@ -84,7 +112,13 @@ export default function App() {
             </div>
           </div>
 
-          <div className="bg-neutral-950/80 backdrop-blur-xl border border-white/10 rounded-[3rem] p-8 md:p-16 flex flex-col items-center justify-center text-center shadow-2xl overflow-hidden relative group">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="bg-neutral-950/80 backdrop-blur-xl border border-white/10 rounded-[3rem] p-8 md:p-16 flex flex-col items-center justify-center text-center shadow-2xl overflow-hidden relative group"
+          >
             
             {/* Outline Background Text Effect */}
             <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-syne text-[25vw] sm:text-[15rem] font-bold uppercase whitespace-nowrap text-transparent opacity-10 pointer-events-none select-none mix-blend-overlay" style={{ WebkitTextStroke: '2px white' }}>
@@ -129,7 +163,7 @@ export default function App() {
                 <span className="text-xl leading-none -mt-1 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform inline-block font-black">↗</span>
               </a>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
@@ -145,7 +179,13 @@ export default function App() {
       />
 
       {/* Footer Section - Moved outside main container and forced to top */}
-      <footer className="w-full relative z-[999] bg-black border-t border-white/10 pt-16 pb-16 px-6 mt-2 mb-20">
+      <motion.footer 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.2 }}
+        className="w-full relative z-[999] bg-black border-t border-white/10 pt-16 pb-16 px-6 mt-2 mb-20"
+      >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start">
             <img 
@@ -165,7 +205,7 @@ export default function App() {
             <span className="text-[#ccff00] text-2xl animate-pulse">✦</span>
           </div>
         </div>
-      </footer>
+      </motion.footer>
     </div>
   )
 }
