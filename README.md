@@ -9,19 +9,22 @@ https://portfolio-advene-culture.vercel.app/
 
 ## Features
 
-• Category-based gallery  
-• Interactive visual showcase  
-• Responsive design  
-• Smooth animations and transitions  
-• Optimized for performance  
+- Interactive swipe gallery
+- Physics-based falling text
+- Smooth animations with Framer Motion
+- Category filtering system
+- Fully responsive layout
+- Modern neon / Gen-Z UI design
 
 ## Tech Stack
 
-React  
-TypeScript  
-Vite  
-Tailwind CSS  
-Vercel  
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
+- Matter.js
+- Vercel
 
 ## Preview
 
