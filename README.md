@@ -5,7 +5,7 @@ Interactive creative portfolio showcasing flyers, branding, and promotional visu
 Built with modern frontend tools and deployed on Vercel.
 
 ## Live Website
-[![Portfolio Preview](./public/preview.png)](https://portfolio-advene-culture.vercel.app/)
+https://portfolio-advene-culture.vercel.app/
 
 ## Features
 
@@ -25,7 +25,7 @@ Vercel
 
 ## Preview
 
-![Portfolio Preview](./public/preview.png)
+[![Portfolio Preview](./public/preview.png)](https://portfolio-advene-culture.vercel.app/)
 
 ## Run Locally
 
